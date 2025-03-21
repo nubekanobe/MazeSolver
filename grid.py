@@ -41,3 +41,4 @@ def draw_grid(screen, maze):
                 1,
             )
             '''
+# Test
