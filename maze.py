@@ -1,0 +1,57 @@
+# maze.py
+from config import WALL
+from config import PATH
+from config import MUD
+from config import BRIDGE
+from config import WATER
+
+GOAL_X = 1
+GOAL_Y = 1
+
+
+class MazeNode:
+    def __init__(self, x, y, traversable=True, cost=PATH, heuristic=0):
+        self.x = x
+        self.y = y
+        self.traversable = traversable
+        self.cost = cost
+        self.heuristic = heuristic
+
+    def calculate_heuristic(self, goal_x, goal_y):  # manhattan method
+        self.heuristic = abs(goal_x - self.x) + abs(goal_y - self.y)
+
+
+maze_layout = [
+    [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+    [WALL, PATH, WALL, PATH, PATH, PATH, PATH, PATH, WALL, PATH, WALL, PATH, PATH, PATH, WALL, PATH, PATH, PATH, WALL, PATH, WALL],
+    [WALL, PATH, WALL, WALL, WALL, WALL, WALL, PATH, WALL, PATH, WALL, WALL, WALL, PATH, WALL, WALL, WALL, PATH, WALL, PATH, WALL],
+    [WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, PATH, PATH, PATH, PATH, WALL, PATH, WALL, PATH, WALL],
+    [WALL, WALL, WALL, WALL, WALL, BRIDGE, WALL, WALL, WALL, WATER, WALL, WALL, WALL, WALL, WALL, PATH, WALL, PATH, WALL, PATH, WALL],
+    [WALL, PATH, PATH, PATH, PATH, MUD, WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, PATH, PATH, PATH, PATH, WALL],
+    [WALL, PATH, WALL, WALL, WALL, MUD, WALL, WALL, WALL, PATH, WALL, WALL, WALL, PATH, WALL, WALL, WALL, PATH, WALL, WALL, WALL],
+    [WALL, PATH, WALL, PATH, WALL, MUD, WALL, PATH, PATH, PATH, WALL, PATH, PATH, PATH, WALL, PATH, PATH, PATH, PATH, PATH, WALL],
+    [WALL, WALL, WALL, PATH, WALL, MUD, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PATH, WALL, WALL, WALL, PATH, WALL, WALL, WALL],
+    [WALL, PATH, WALL, PATH, WALL, MUD, WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, WALL],
+    [WALL, PATH, WALL, PATH, WALL, MUD, WALL, WALL, WALL, WALL, WALL, PATH, WALL, WALL, WALL, PATH, WALL, PATH, WALL, PATH, WALL],
+    [WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, PATH, PATH, WALL, PATH, PATH, PATH, WALL],
+    [WALL, PATH, WALL, PATH, WALL, WALL, WALL, PATH, WALL, PATH, WALL, PATH, WALL, WALL, WALL, WALL, WALL, PATH, WALL, WALL, WALL],
+    [WALL, PATH, WALL, PATH, WALL, PATH, PATH, PATH, WALL, PATH, WALL, WATER, WATER, WATER, WALL, PATH, PATH, PATH, PATH, PATH, WALL],
+    [WALL, PATH, WALL, WALL, WALL, PATH, WALL, PATH, WALL, PATH, BRIDGE, BRIDGE, BRIDGE, BRIDGE, BRIDGE, PATH, WALL, WALL, WALL, PATH, WALL],
+    [WALL, PATH, WALL, PATH, PATH, PATH, WALL, PATH, WALL, PATH, WALL, WATER, WATER, WATER, WALL, PATH, WALL, PATH, PATH, PATH, WALL],
+    [WALL, WALL, WALL, WALL, WALL, WALL, WALL, PATH, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PATH, WALL],
+    [WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, PATH, PATH, PATH, PATH, WALL, PATH, PATH, PATH, WALL],
+    [WALL, WALL, WALL, WALL, WALL, PATH, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PATH, WALL, PATH, WALL, PATH, WALL],
+    [WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, PATH, WALL, PATH, WALL],
+    [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL]
+]
+
+# creating the maze object
+
+maze = [
+    [MazeNode(x, y, traversable=(maze_layout[y][x] != WALL), cost=maze_layout[y][x]) for x in range(len(maze_layout[0]))]
+    for y in range(len(maze_layout))
+]
+
+for row in maze:
+    for node in row:
+        node.calculate_heuristic(GOAL_X, GOAL_Y)
