@@ -4,9 +4,6 @@ import config
 from grid import draw_grid
 
 
-### NEED TO CHANGE THIS TO BE RECURSIVE ALGORITHM. THIS WAS JUST USED AS A TEST.
-
-
 def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
     stack = [(start_x, start_y)]  # Stack to hold positions
     visited = set()  # Set to track visited nodes
