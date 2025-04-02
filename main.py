@@ -4,7 +4,7 @@ import config
 import copy
 import time
 from grid import draw_grid
-from maze import maze
+from maze import maze, maze_layout1, MazeNode, maze_layout2, maze_layout3
 from dfs import dfs
 from collections import deque
 import heapq
@@ -181,7 +181,7 @@ def reset_maze():
 
 # Main game loop
 def main():
-    global selected_algorithm, selected_maze, output_message
+    global selected_algorithm, selected_maze, output_message, current_maze
 
     running = True
 
@@ -202,7 +202,19 @@ def main():
                     if rect.collidepoint((mx, my)):
                         selected_maze = label
                         output_message = f"{label} selected."
-                        # TODO: Load different maze layouts if available
+
+                        if label == "Maze 1":
+                            current_maze = [
+                                [MazeNode(x, y, traversable=(maze_layout1[y][x] != config.WALL), cost=maze_layout1[y][x])
+                                 for x in range(len(maze_layout1[0]))] for y in range(len(maze_layout1))]
+                        elif label == "Maze 2":
+                            current_maze = [
+                                [MazeNode(x, y, traversable=(maze_layout2[y][x] != config.WALL), cost=maze_layout2[y][x])
+                                 for x in range(len(maze_layout2[0]))] for y in range(len(maze_layout2))]
+                        elif label == "Maze 3":
+                            current_maze = [
+                                [MazeNode(x, y, traversable=(maze_layout3[y][x] != config.WALL), cost=maze_layout3[y][x])
+                                 for x in range(len(maze_layout3[0]))] for y in range(len(maze_layout3))]
 
                 if run_button.collidepoint((mx, my)):
                     run_selected_algorithm()
