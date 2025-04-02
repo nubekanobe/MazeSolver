@@ -38,7 +38,7 @@ start_y_pos = 30
 
 algo_buttons = {
     "DFS": pygame.Rect(x1, start_y_pos, button_width, button_height),
-    "BFS": pygame.Rect(x2, start_y_pos, button_width, button_height),
+    "UCS": pygame.Rect(x2, start_y_pos, button_width, button_height),
     "A*": pygame.Rect(x1, start_y_pos + button_height + button_spacing, button_width, button_height),
 }
 
@@ -82,50 +82,58 @@ def draw_buttons():
     output_text = font.render(output_message, True, config.BLACK)
     screen.blit(output_text, (output_box.x + 8, output_box.y + 5))
 
-# BFS Implementation
-def bfs(maze, start_x, start_y, goal_x, goal_y, screen):
-    queue = deque([(start_x, start_y)])
+# UCS Implementation
+def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
+    priority_queue = [(0, start_x, start_y)]  # (cost, x, y)
     visited = set()
-    total_cost = 0
-
-    while queue:
-        x, y = queue.popleft()
-
+    cost_so_far = {(start_x, start_y): 0}  # Track cost to reach each node
+    
+    while priority_queue:
+        current_cost, x, y = heapq.heappop(priority_queue)  # Get the lowest-cost node
+        
+        # Skip if already visited
         if (x, y) in visited:
             continue
         visited.add((x, y))
-        total_cost += maze[y][x].cost
+        
+        # Mark node as searched
         maze[y][x].cost = config.SEARCHED
-
         draw_grid(screen, maze)
         pygame.display.flip()
-        time.sleep(0.05)
-
+        time.sleep(0.05)  # Delay for visualization
+        
+        # Check if goal is reached
         if x == goal_x and y == goal_y:
-            print(f"Total Cost: {total_cost}")
+            print(f"Total Cost: {current_cost}")
             return True
-
+        
+        # Explore neighbors with their respective costs
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
-            if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze):
-                if maze[ny][nx].traversable and (nx, ny) not in visited:
-                    queue.append((nx, ny))
-
-    return False
+            
+            if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze) and maze[ny][nx].traversable:
+                new_cost = current_cost + maze[ny][nx].cost
+                
+                if (nx, ny) not in cost_so_far or new_cost < cost_so_far[(nx, ny)]:
+                    cost_so_far[(nx, ny)] = new_cost
+                    heapq.heappush(priority_queue, (new_cost, nx, ny))
+    
+    return False  # No path found
 
 # A* Implementation
 def astar(maze, start_x, start_y, goal_x, goal_y, screen):
     open_set = [(0 + maze[start_y][start_x].heuristic, 0, start_x, start_y)]
+    cost_so_far = {(start_x, start_y): 0}
     visited = set()
-    total_cost = 0
 
     while open_set:
         _, cost, x, y = heapq.heappop(open_set)
 
         if (x, y) in visited:
             continue
+        print(f"Visiting ({x}, {y}) with terrain cost: {maze[y][x].cost}")
+        maze[y][x].cost = config.SEARCHED
         visited.add((x, y))
-        total_cost += maze[y][x].cost
         maze[y][x].cost = config.SEARCHED
 
         draw_grid(screen, maze)
@@ -133,16 +141,19 @@ def astar(maze, start_x, start_y, goal_x, goal_y, screen):
         time.sleep(0.05)
 
         if x == goal_x and y == goal_y:
-            print(f"Total Cost: {total_cost}")
+            print(f"Total Cost: {cost}")
             return True
 
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
             if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze):
-                if maze[ny][nx].traversable and (nx, ny) not in visited:
-                    g = cost + maze[ny][nx].cost
-                    h = maze[ny][nx].heuristic
-                    heapq.heappush(open_set, (g + h, g, nx, ny))
+                neighbor = maze[ny][nx]
+                if neighbor.traversable:
+                    new_cost = cost + neighbor.cost
+                    if (nx, ny) not in cost_so_far or new_cost < cost_so_far[(nx, ny)]:
+                        cost_so_far[(nx, ny)] = new_cost
+                        h = neighbor.heuristic
+                        heapq.heappush(open_set, (new_cost + h, new_cost, nx, ny))
 
     return False
 
@@ -153,8 +164,8 @@ def run_selected_algorithm():
 
     if selected_algorithm == 'DFS':
         path_found = dfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
-    elif selected_algorithm == 'BFS':
-        path_found = bfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
+    elif selected_algorithm == 'UCS':
+        path_found = ucs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     elif selected_algorithm == 'A*':
         path_found = astar(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     else:
