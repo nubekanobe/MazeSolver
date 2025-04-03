@@ -42,5 +42,4 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
         if y < len(maze) - 1 and maze[y + 1][x].traversable:  # Down
             stack.append((x, y + 1))
 
-
     return False  # No path found
