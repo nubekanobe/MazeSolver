@@ -22,6 +22,8 @@ def draw_grid(screen, maze):
                 color = config.GREEN
             elif node.cost == config.SEARCHED:
                 color = config.PURPLE
+            elif node.cost == config.BEST:
+                color = config.YELLOW
             else:
                 color = config.GRAY  # Normal traversable paths
 

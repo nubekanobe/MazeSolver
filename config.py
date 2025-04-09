@@ -16,6 +16,7 @@ BLUE = (0, 0, 255)
 BROWN = (139, 69, 19)
 GREEN = (0, 255, 0)
 PURPLE = (128, 0, 128)
+YELLOW = (255, 255, 0)
 
 
 # Terrain Types With Costs
@@ -25,6 +26,7 @@ BRIDGE = 2
 GRASS = 20
 WATER = 100
 SEARCHED = -1
+BEST = -2
 
 #Font
 import pygame

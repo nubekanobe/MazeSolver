@@ -46,8 +46,9 @@ def run_selected_algorithm():
 
     if path_found:
         pygame.display.flip()
-        time.sleep(2)
+        time.sleep(8)
         reset_maze()
+
 
 def reset_maze():
     global current_maze, maze_copy, output_message

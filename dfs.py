@@ -8,6 +8,8 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
 
     stack = [(start_x, start_y)]  # Initialize the stack with my start coordinates
     total_cost = 0
+    nodes_explored = 0
+
     max_x = len(maze[0]) - 1    # max x-axis boundary
     max_y = len(maze) - 1   # max y-axis boundary
     min_x = 0   # min x_axis boundary
@@ -21,6 +23,7 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
             continue
 
         total_cost += maze[curr_y][curr_x].cost
+        nodes_explored += 1
         maze[curr_y][curr_x].cost = config.SEARCHED  # Change status to show the AI path
 
         draw_grid(screen, maze)  # Redraw the grid with updated colors
@@ -28,7 +31,10 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
         time.sleep(0.05)
 
         if curr_x == goal_x and curr_y == goal_y:
+            print(f"=== DFS Results ===")
+            print(f"Nodes Explored: {nodes_explored}")
             print(f"Total Cost: {total_cost}")
+            print(f"=====================")
             return True
 
         # Add neighboring nodes
@@ -42,4 +48,8 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
         if curr_y < max_y and maze[curr_y + 1][curr_x].traversable:  # Down neighbor
             stack.append((curr_x, curr_y + 1))
 
+    print(f"=== DFS Results ===")
+    print(f"Nodes Explored: {nodes_explored}")
+    print(f"Total Cost: {total_cost}")
+    print(f"=====================")
     return False  # No path found
