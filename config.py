@@ -25,3 +25,9 @@ BRIDGE = 2
 MUD = 20
 WATER = 100
 SEARCHED = -1
+
+#Font
+import pygame
+
+def get_font(size):
+    return pygame.font.SysFont("Arial", size)
