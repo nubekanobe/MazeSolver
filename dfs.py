@@ -49,6 +49,7 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
             stack.append((curr_x, curr_y + 1))
 
     print(f"=== DFS Results ===")
+    print(f"No path found")
     print(f"Nodes Explored: {nodes_explored}")
     print(f"Total Cost: {total_cost}")
     print(f"=====================")

@@ -45,8 +45,17 @@ def run_selected_algorithm():
     output_message = f"{selected_algorithm}: Path found!" if path_found else f"{selected_algorithm}: No path found."
 
     if path_found:
-        pygame.display.flip()
         time.sleep(8)
+        reset_maze()
+    else:
+        width, height = screen.get_size()
+        red = (255, 0, 0)
+
+        pygame.draw.line(screen, red, (0, 0), (width, height), 10)
+        pygame.draw.line(screen, red, (0, height), (width, 0), 10)
+
+        pygame.display.flip()  # display x
+        time.sleep(2)  # Display for 2 seconds
         reset_maze()
 
 
