@@ -1,8 +1,8 @@
 # config.py
+import pygame
 
 # Defining the window dimensions
 S_WIDTH, S_HEIGHT = 700, 415
-
 
 # Setting up the grid
 GRID_SIZE = 20
@@ -18,7 +18,6 @@ GREEN = (0, 255, 0)
 PURPLE = (128, 0, 128)
 YELLOW = (255, 255, 0)
 
-
 # Terrain Types With Costs
 WALL = 0
 PATH = 1
@@ -28,8 +27,8 @@ WATER = 100
 SEARCHED = -1
 BEST = -2
 
-#Font
-import pygame
+# Font
+
 
 def get_font(size):
     return pygame.font.SysFont("Arial", size)
