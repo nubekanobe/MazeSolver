@@ -9,23 +9,23 @@ def draw_grid(screen, maze):
         for x in range(len(maze[y])):
             node = maze[y][x]  # Point to the current MazeNode object in the loop
 
-            # Determine color based on node properties
+            # Determine the nodes color based on its properties
             if node.x == GOAL_X and node.y == GOAL_Y:
                 color = config.RED  # Goal node
-            elif not node.traversable:
-                color = config.BLACK  # Walls
+            elif not node.traversable:  # Walls
+                color = config.BLACK
             elif node.cost == config.WATER:
                 color = config.BLUE
             elif node.cost == config.BRIDGE:
                 color = config.BROWN
-            elif node.cost == config.MUD:
+            elif node.cost == config.GRASS:
                 color = config.GREEN
             elif node.cost == config.SEARCHED:
                 color = config.PURPLE
             else:
                 color = config.GRAY  # Normal traversable paths
 
-            # Drawing one square at a time for this loop
+            # This draws one square for each iteration of the loop
             pygame.draw.rect(
                 screen,
                 color,
@@ -41,4 +41,3 @@ def draw_grid(screen, maze):
                 1,
             )
             '''
-# Test

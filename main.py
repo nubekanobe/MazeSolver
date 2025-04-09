@@ -4,7 +4,7 @@ import config
 import copy
 import time
 from grid import draw_grid
-from maze import maze1, maze2, maze3
+from maze import maze1, maze2, maze3, GOAL_X, GOAL_Y
 from dfs import dfs
 from astar import astar
 from ucs import ucs
@@ -17,12 +17,12 @@ pygame.init()
 screen = pygame.display.set_mode((config.S_WIDTH, config.S_HEIGHT))
 pygame.display.set_caption("Maze Solver")
 
-maze_copy = copy.deepcopy(maze1)  # Creates a deep copy of the maze
+maze_copy = copy.deepcopy(maze1)  # Creates a deep copy of the maze, this will be the default maze
 
 start_x = 19
 start_y = 19
-goal_x = 1
-goal_y = 1
+goal_x = GOAL_X
+goal_y = GOAL_Y
 
 # UI Components
 font = pygame.font.SysFont("Segoe UI", 20)
@@ -102,7 +102,7 @@ def run_selected_algorithm():
 
     if path_found:
         pygame.display.flip()
-        time.sleep(2)  # Short delay before resetting
+        time.sleep(3)  # Short delay before resetting
         reset_maze()
 
 
