@@ -33,6 +33,8 @@ output_message = ''
 def run_selected_algorithm():
     global output_message, maze_copy
 
+    maze_copy = copy.deepcopy(current_maze)
+
     if selected_algorithm == 'DFS':
         path_found = dfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     elif selected_algorithm == 'UCS':
@@ -45,8 +47,8 @@ def run_selected_algorithm():
     output_message = f"{selected_algorithm}: Path found!" if path_found else f"{selected_algorithm}: No path found."
 
     if path_found:
-        time.sleep(8)
-        reset_maze()
+        output_message = f"{selected_algorithm}: Path found!"
+
     else:
         width, height = screen.get_size()
         red = (255, 0, 0)
@@ -56,10 +58,10 @@ def run_selected_algorithm():
 
         pygame.display.flip()  # display x
         time.sleep(2)  # Display for 2 seconds
-        reset_maze()
+        reset_maze(f"{selected_algorithm}: No path found.")
 
 
-def reset_maze():
+def reset_maze(msg=None):
     global current_maze, maze_copy, output_message
 
     if selected_maze == "Maze 1":
@@ -71,6 +73,9 @@ def reset_maze():
 
     maze_copy = copy.deepcopy(current_maze)
     output_message = "Maze reset."
+
+    if msg:
+        output_message = msg
 
 
 def main():
@@ -87,24 +92,25 @@ def main():
                 mx, my = pygame.mouse.get_pos()
 
                 for label, rect in algo_buttons.items():
-                    if rect.collidepoint((mx, my)):
+                    if rect.collidepoint((mx, my)) and selected_algorithm != label:
                         selected_algorithm = label
                         output_message = f"{label} selected."
+                        reset_maze(f"{label} selected.")
 
                 for label, rect in maze_buttons.items():
                     if rect.collidepoint((mx, my)):
                         selected_maze = label
                         output_message = f"{label} selected."
-                        reset_maze()
+                        reset_maze(f"{label} selected.")
 
                 if run_button.collidepoint((mx, my)):
                     run_selected_algorithm()
 
                 if reset_button.collidepoint((mx, my)):
-                    reset_maze()
+                    reset_maze("Maze Reset")
 
         screen.fill(config.WHITE)
-        draw_grid(screen, current_maze)
+        draw_grid(screen, maze_copy)
         draw_buttons(screen, selected_algorithm, selected_maze, output_message)
         pygame.display.flip()
 
