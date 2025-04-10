@@ -24,6 +24,7 @@ run_button = pygame.Rect(x1, start_y_pos + 3 * (button_height + button_spacing),
 reset_button = pygame.Rect(x1, start_y_pos + 4 * (button_height + button_spacing), 190, button_height)
 output_box = pygame.Rect(x1, start_y_pos + 5 * (button_height + button_spacing), 190, button_height)
 
+
 def draw_rounded_button(screen, rect, label, font, selected=False):
     color = (200, 200, 200) if not selected else (160, 160, 160)
     pygame.draw.rect(screen, color, rect, border_radius=6)
@@ -31,6 +32,7 @@ def draw_rounded_button(screen, rect, label, font, selected=False):
     text = font.render(label, True, config.BLACK)
     text_rect = text.get_rect(center=rect.center)
     screen.blit(text, text_rect)
+
 
 def draw_buttons(screen, selected_algorithm, selected_maze, output_message):
     font = get_font(20)
