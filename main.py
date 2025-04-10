@@ -3,6 +3,7 @@ import sys
 import config
 import copy
 import time
+import io
 
 from grid import draw_grid
 from maze import maze1, maze2, maze3, START_X, START_Y, GOAL_X, GOAL_Y
@@ -28,12 +29,18 @@ maze_copy = copy.deepcopy(current_maze)
 selected_algorithm = 'DFS'
 selected_maze = 'Maze 1'
 output_message = ''
+log_output = ''  # Holds multiline terminal-style output
 
 
 def run_selected_algorithm():
-    global output_message, maze_copy
+    global output_message, maze_copy, log_output
 
     maze_copy = copy.deepcopy(current_maze)
+
+    # Redirect prints to capture algorithm output
+    original_stdout = sys.stdout
+    log_stream = io.StringIO()
+    sys.stdout = log_stream
 
     if selected_algorithm == 'DFS':
         path_found = dfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
@@ -44,25 +51,26 @@ def run_selected_algorithm():
     else:
         path_found = False
 
+    # Restore stdout and save the captured output
+    sys.stdout = original_stdout
+    log_output = log_stream.getvalue()
+
     output_message = f"{selected_algorithm}: Path found!" if path_found else f"{selected_algorithm}: No path found."
 
-    if path_found:
-        output_message = f"{selected_algorithm}: Path found!"
-
-    else:
+    if not path_found:
         width, height = screen.get_size()
         red = (255, 0, 0)
 
         pygame.draw.line(screen, red, (0, 0), (width, height), 10)
         pygame.draw.line(screen, red, (0, height), (width, 0), 10)
 
-        pygame.display.flip()  # display x
-        time.sleep(2)  # Display for 2 seconds
+        pygame.display.flip()
+        time.sleep(2)
         reset_maze(f"{selected_algorithm}: No path found.")
 
 
 def reset_maze(msg=None):
-    global current_maze, maze_copy, output_message
+    global current_maze, maze_copy, output_message, log_output
 
     if selected_maze == "Maze 1":
         current_maze = copy.deepcopy(maze1)
@@ -72,6 +80,7 @@ def reset_maze(msg=None):
         current_maze = copy.deepcopy(maze3)
 
     maze_copy = copy.deepcopy(current_maze)
+    log_output = ''  # Clear the second output box
     output_message = "Maze reset."
 
     if msg:
@@ -79,7 +88,7 @@ def reset_maze(msg=None):
 
 
 def main():
-    global selected_algorithm, selected_maze, output_message, current_maze, maze_copy
+    global selected_algorithm, selected_maze, output_message, current_maze, maze_copy, log_output
 
     running = True
 
@@ -111,7 +120,7 @@ def main():
 
         screen.fill(config.WHITE)
         draw_grid(screen, maze_copy)
-        draw_buttons(screen, selected_algorithm, selected_maze, output_message)
+        draw_buttons(screen, selected_algorithm, selected_maze, output_message, log_output)
         pygame.display.flip()
 
     pygame.quit()

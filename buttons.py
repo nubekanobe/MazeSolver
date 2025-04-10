@@ -34,9 +34,10 @@ def draw_rounded_button(screen, rect, label, font, selected=False):
     screen.blit(text, text_rect)
 
 
-def draw_buttons(screen, selected_algorithm, selected_maze, output_message):
+def draw_buttons(screen, selected_algorithm, selected_maze, output_message, log_output):
     font = get_font(20)
     font_small = get_font(18)
+    font_log = get_font(14)
 
     for label, rect in algo_buttons.items():
         draw_rounded_button(screen, rect, label, font, selected_algorithm == label)
@@ -51,3 +52,13 @@ def draw_buttons(screen, selected_algorithm, selected_maze, output_message):
     pygame.draw.rect(screen, config.BLACK, output_box, 2, border_radius=6)
     output_text = font_small.render(output_message, True, config.BLACK)
     screen.blit(output_text, (output_box.x + 8, output_box.y + 5))
+
+    # Draw second multiline output box
+    log_rect = pygame.Rect(output_box.x, output_box.y + output_box.height + 10, output_box.width, 120)
+    pygame.draw.rect(screen, config.WHITE, log_rect, border_radius=6)
+    pygame.draw.rect(screen, config.BLACK, log_rect, 2, border_radius=6)
+
+    lines = log_output.strip().split('\n')
+    for i, line in enumerate(lines[-9:]):  # Show up to 9 lines
+        text_surface = font_log.render(line, True, config.BLACK)
+        screen.blit(text_surface, (log_rect.x + 8, log_rect.y + 5 + i * 18))
