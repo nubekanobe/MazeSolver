@@ -7,6 +7,8 @@ from config import WATER
 
 GOAL_X = 1
 GOAL_Y = 1
+START_X = 19
+START_Y = 19
 
 
 class MazeNode:

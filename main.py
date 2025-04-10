@@ -5,7 +5,7 @@ import copy
 import time
 
 from grid import draw_grid
-from maze import maze1, maze2, maze3
+from maze import maze1, maze2, maze3, START_X, START_Y, GOAL_X, GOAL_Y
 from dfs import dfs
 from astar import astar
 from ucs import ucs
@@ -19,8 +19,8 @@ screen = pygame.display.set_mode((config.S_WIDTH, config.S_HEIGHT))
 pygame.display.set_caption("Maze Solver")
 
 # Coordinates for start and goal
-start_x, start_y = 19, 19
-goal_x, goal_y = 1, 1
+start_x, start_y = START_X, START_Y
+goal_x, goal_y = GOAL_X, GOAL_Y
 
 # Maze and state variables
 current_maze = copy.deepcopy(maze1)
