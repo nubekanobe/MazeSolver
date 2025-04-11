@@ -23,6 +23,8 @@ pygame.display.set_caption("Maze Solver")
 start_x, start_y = START_X, START_Y
 goal_x, goal_y = GOAL_X, GOAL_Y
 
+optimal_path = []
+
 # Maze and state variables
 current_maze = copy.deepcopy(maze1)
 maze_copy = copy.deepcopy(current_maze)
@@ -33,7 +35,7 @@ log_output = ''  # Holds multiline terminal-style output
 
 
 def run_selected_algorithm():
-    global output_message, maze_copy, log_output
+    global output_message, maze_copy, log_output, optimal_path
 
     maze_copy = copy.deepcopy(current_maze)
 
@@ -44,10 +46,10 @@ def run_selected_algorithm():
 
     if selected_algorithm == 'DFS':
         path_found = dfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
-    elif selected_algorithm == 'UCS':
-        path_found = ucs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     elif selected_algorithm == 'A*':
-        path_found = astar(maze_copy, start_x, start_y, goal_x, goal_y, screen)
+        path_found, optimal_path = astar(maze_copy, start_x, start_y, goal_x, goal_y, screen)
+    elif selected_algorithm == 'UCS':
+        path_found, optimal_path = ucs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     else:
         path_found = False
 
@@ -70,7 +72,7 @@ def run_selected_algorithm():
 
 
 def reset_maze(msg=None):
-    global current_maze, maze_copy, output_message, log_output
+    global current_maze, maze_copy, output_message, log_output, start_x, start_y
 
     if selected_maze == "Maze 1":
         current_maze = copy.deepcopy(maze1)
@@ -82,6 +84,9 @@ def reset_maze(msg=None):
     maze_copy = copy.deepcopy(current_maze)
     log_output = ''  # Clear the second output box
     output_message = "Maze reset."
+
+    start_x = 19
+    start_y = 19
 
     if msg:
         output_message = msg
@@ -118,8 +123,29 @@ def main():
                 if reset_button.collidepoint((mx, my)):
                     reset_maze("Maze Reset")
 
+            elif event.type == pygame.KEYDOWN:
+                global start_x, start_y  # 👈 Add this line
+                new_x, new_y = start_x, start_y
+
+                if event.key == pygame.K_UP:
+                    new_y -= 1
+                elif event.key == pygame.K_DOWN:
+                    new_y += 1
+                elif event.key == pygame.K_LEFT:
+                    new_x -= 1
+                elif event.key == pygame.K_RIGHT:
+                    new_x += 1
+
+                if 0 <= new_x < len(current_maze[0]) and 0 <= new_y < len(current_maze):
+                    if current_maze[new_y][new_x].traversable:
+                        if (new_x, new_y) in optimal_path:
+                            start_x, start_y = new_x, new_y
+                        else:
+                            start_x, start_y = new_x, new_y
+                            run_selected_algorithm()
+
         screen.fill(config.WHITE)
-        draw_grid(screen, maze_copy)
+        draw_grid(screen, maze_copy, start_x, start_y)
         draw_buttons(screen, selected_algorithm, selected_maze, output_message, log_output)
         pygame.display.flip()
 

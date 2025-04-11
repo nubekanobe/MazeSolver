@@ -26,7 +26,7 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
         nodes_explored += 1
         maze[curr_y][curr_x].cost = config.SEARCHED  # Change status to show the AI path
 
-        draw_grid(screen, maze)  # Redraw the grid with updated colors
+        draw_grid(screen, maze, start_x, start_y)  # Redraw the grid with updated colors
         pygame.display.flip()  # Update the screen
         time.sleep(0.05)
 

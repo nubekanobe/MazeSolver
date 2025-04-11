@@ -2,11 +2,11 @@ import pygame
 import config
 from maze import GOAL_X
 from maze import GOAL_Y
-from maze import START_X
-from maze import START_Y
+# from maze import START_X
+# from maze import START_Y
 
 
-def draw_grid(screen, maze):
+def draw_grid(screen, maze, start_x, start_y):
     for y in range(len(maze)):
         for x in range(len(maze[y])):
             node = maze[y][x]  # Point to the current MazeNode object in the loop
@@ -14,7 +14,7 @@ def draw_grid(screen, maze):
             # Determine the nodes color based on its properties
             if node.x == GOAL_X and node.y == GOAL_Y:
                 color = config.RED  # Goal node
-            elif node.x == START_X and node.y == START_Y:
+            elif node.x == start_x and node.y == start_y:
                 color = config.ORANGE # Start node
             elif not node.traversable:  # Walls
                 color = config.BLACK

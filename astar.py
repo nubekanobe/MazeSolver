@@ -25,7 +25,7 @@ def astar(maze, start_x, start_y, goal_x, goal_y, screen):
         explored_cost += maze[y][x].cost
 
         maze[y][x].cost = config.SEARCHED
-        draw_grid(screen, maze)
+        draw_grid(screen, maze, start_x, start_y)
         pygame.display.flip()
         time.sleep(0.05)
 
@@ -47,7 +47,7 @@ def astar(maze, start_x, start_y, goal_x, goal_y, screen):
             # Highlight path
             for px, py in reversed(path):
                 maze[py][px].cost = config.BEST
-                draw_grid(screen, maze)
+                draw_grid(screen, maze, start_x, start_y)
                 pygame.display.flip()
                 time.sleep(0.02)
 
@@ -57,7 +57,7 @@ def astar(maze, start_x, start_y, goal_x, goal_y, screen):
             print(f"Total Nodes in Best Path: {len(path)}")
             print(f"Total Cost of Best Path: {total_path_cost}")
             print(f"=====================")
-            return True
+            return True, list(reversed(path))
 
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
