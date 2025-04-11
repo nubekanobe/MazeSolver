@@ -93,7 +93,7 @@ def reset_maze(msg=None):
 
 
 def main():
-    global selected_algorithm, selected_maze, output_message, current_maze, maze_copy, log_output
+    global selected_algorithm, selected_maze, output_message, current_maze, maze_copy, log_output, start_x, start_y
 
     running = True
 

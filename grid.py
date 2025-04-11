@@ -15,7 +15,7 @@ def draw_grid(screen, maze, start_x, start_y):
             if node.x == GOAL_X and node.y == GOAL_Y:
                 color = config.RED  # Goal node
             elif node.x == start_x and node.y == start_y:
-                color = config.ORANGE # Start node
+                color = config.ORANGE   # Start node
             elif not node.traversable:  # Walls
                 color = config.BLACK
             elif node.cost == config.WATER:
