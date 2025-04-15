@@ -28,7 +28,7 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
 
         draw_grid(screen, maze, start_x, start_y)  # Redraw the grid with updated colors
         pygame.display.flip()  # Update the screen
-        time.sleep(0.05)
+        time.sleep(0.03)
 
         if curr_x == goal_x and curr_y == goal_y:
             print(f"=== DFS Results ===")

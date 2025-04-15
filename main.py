@@ -124,7 +124,7 @@ def main():
                     reset_maze("Maze Reset")
 
             elif event.type == pygame.KEYDOWN:
-                global start_x, start_y  # 👈 Add this line
+                global start_x, start_y
                 new_x, new_y = start_x, start_y
 
                 if event.key == pygame.K_UP:

@@ -27,26 +27,27 @@ def astar(maze, start_x, start_y, goal_x, goal_y, screen):
         maze[y][x].cost = config.SEARCHED
         draw_grid(screen, maze, start_x, start_y)
         pygame.display.flip()
-        time.sleep(0.05)
+        time.sleep(0.03)
 
         if x == goal_x and y == goal_y:
-            # Reconstruct path
+            # Once we've reached the goal, we use our
+            # came_from dictionary to backtrack until
+            # we reach the start, adding each node along
+            # the way to our path list
             path = []
-            cx, cy = x, y
-            total_path_cost = 0
+            curr_x, curr_y = x, y
+            total_path_cost = cost_so_far[(goal_x, goal_y)]
 
-            while (cx, cy) != (start_x, start_y):
-                path.append((cx, cy))
-                prev = came_from[(cx, cy)]
-                step_cost = cost_so_far[(cx, cy)] - cost_so_far[prev]
-                total_path_cost += step_cost
-                cx, cy = prev
+            while (curr_x, curr_y) != (start_x, start_y):
+                path.append((curr_x, curr_y))
+                prev = came_from[(curr_x, curr_y)]
+                curr_x, curr_y = prev
 
             path.append((start_x, start_y))
 
-            # Highlight path
-            for px, py in reversed(path):
-                maze[py][px].cost = config.BEST
+            # Highlight the optimal path
+            for optimal_x, optimal_y in reversed(path):
+                maze[optimal_y][optimal_x].cost = config.BEST
                 draw_grid(screen, maze, start_x, start_y)
                 pygame.display.flip()
                 time.sleep(0.02)
