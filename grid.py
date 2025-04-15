@@ -38,7 +38,7 @@ def draw_grid(screen, maze, start_x, start_y):
                 (x * config.GRID_SIZE, y * config.GRID_SIZE, config.GRID_SIZE, config.GRID_SIZE),
             )
 
-            # We only use this to help modify the maze
+            # We only use this to show grid lines to assist with modifying the maze
             '''
             pygame.draw.rect(
                 screen,

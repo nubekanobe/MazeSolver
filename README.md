@@ -30,3 +30,16 @@ on the optimal path.
 
 Press RESET to reset the maze, clearing any paths drawn, and returning 
 to the original start node position. 
+
+
+Description of Files: 
+
+main.py - Initializes the UI window and assigns functionality to UI components.
+buttons.py - Defines the button layout.
+dfs.py - Defines the DFS search algorithm function. 
+astar.py - Defines the A* search algorithm function.
+ucs.py - Defines the UCS search algorithm function. 
+grid.py - Defines to draw_grid function to update the display.
+maze.py - Defines the MazeNode class, contains the maze structures, 
+          instantiates the mazes, and calculates heuristics.
+config.py - Define values including terrain costs, colors, and text fonts. 
