@@ -16,6 +16,12 @@ def draw_grid(screen, maze, start_x, start_y):
                 color = config.RED  # Goal node
             elif node.x == start_x and node.y == start_y:
                 color = config.ORANGE   # Start node
+            elif node.cost == config.BEST:  # For UCS and A* only
+                color = config.YELLOW
+            elif node.in_path:  # For DFS only
+                color = config.PINK
+            elif node.searched:
+                color = config.PURPLE
             elif not node.traversable:  # Walls
                 color = config.BLACK
             elif node.cost == config.WATER:
@@ -24,10 +30,6 @@ def draw_grid(screen, maze, start_x, start_y):
                 color = config.BROWN
             elif node.cost == config.GRASS:
                 color = config.GREEN
-            elif node.cost == config.SEARCHED:
-                color = config.PURPLE
-            elif node.cost == config.BEST:
-                color = config.YELLOW
             else:
                 color = config.GRAY  # Normal traversable paths
 

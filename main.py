@@ -23,7 +23,7 @@ pygame.display.set_caption("Maze Solver")
 start_x, start_y = START_X, START_Y
 goal_x, goal_y = GOAL_X, GOAL_Y
 
-optimal_path = []
+path_to_goal = []
 
 # Maze and state variables
 current_maze = copy.deepcopy(maze1)
@@ -35,7 +35,7 @@ log_output = ''  # Holds multiline terminal-style output
 
 
 def run_selected_algorithm():
-    global output_message, maze_copy, log_output, optimal_path
+    global output_message, maze_copy, log_output, path_to_goal
 
     maze_copy = copy.deepcopy(current_maze)
 
@@ -45,11 +45,11 @@ def run_selected_algorithm():
     sys.stdout = log_stream
 
     if selected_algorithm == 'DFS':
-        path_found = dfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
+        path_found, path_to_goal = dfs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     elif selected_algorithm == 'A*':
-        path_found, optimal_path = astar(maze_copy, start_x, start_y, goal_x, goal_y, screen)
+        path_found, path_to_goal = astar(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     elif selected_algorithm == 'UCS':
-        path_found, optimal_path = ucs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
+        path_found, path_to_goal = ucs(maze_copy, start_x, start_y, goal_x, goal_y, screen)
     else:
         path_found = False
 
@@ -138,7 +138,7 @@ def main():
 
                 if 0 <= new_x < len(current_maze[0]) and 0 <= new_y < len(current_maze):
                     if current_maze[new_y][new_x].traversable:
-                        if (new_x, new_y) in optimal_path:
+                        if (new_x, new_y) in path_to_goal:
                             start_x, start_y = new_x, new_y
                         else:
                             start_x, start_y = new_x, new_y

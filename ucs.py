@@ -24,7 +24,7 @@ def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
         explored_count += 1
         explored_cost += maze[y][x].cost
 
-        maze[y][x].cost = config.SEARCHED
+        maze[y][x].searched = True
         draw_grid(screen, maze, start_x, start_y)
         pygame.display.flip()
         time.sleep(0.03)
@@ -34,19 +34,19 @@ def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
             # came_from dictionary to backtrack until
             # we reach the start, adding each node along
             # the way to our path list
-            path = []
+            optimal_path = []
             curr_x, curr_y = x, y
             total_path_cost = cost_so_far[(goal_x, goal_y)]
 
             while (curr_x, curr_y) != (start_x, start_y):
-                path.append((curr_x, curr_y))
-                prev = came_from[(curr_x, curr_y)]
-                curr_x, curr_y = prev
+                optimal_path.append((curr_x, curr_y))
+                prev_node = came_from[(curr_x, curr_y)]
+                curr_x, curr_y = prev_node
 
-            path.append((start_x, start_y))
+            optimal_path.append((start_x, start_y))
 
             # Highlight the optimal path
-            for optimal_x, optimal_y in reversed(path):
+            for optimal_x, optimal_y in reversed(optimal_path):
                 maze[optimal_y][optimal_x].cost = config.BEST
                 draw_grid(screen, maze, start_x, start_y)
                 pygame.display.flip()
@@ -55,11 +55,11 @@ def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
             print(f"=== UCS Results ===")
             print(f"Total Nodes Explored: {explored_count}")
             print(f"Total Cost of Explored Nodes: {explored_cost}")
-            print(f"Total Nodes in Best Path: {len(path)}")
+            print(f"Total Nodes in Best Path: {len(optimal_path)}")
             print(f"Total Cost of Best Path: {total_path_cost}")
             print(f"=====================")
 
-            return True, list(reversed(path))
+            return True, list(reversed(optimal_path))
 
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy

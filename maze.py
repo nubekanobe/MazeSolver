@@ -18,6 +18,8 @@ class MazeNode:
         self.traversable = traversable
         self.cost = cost
         self.heuristic = heuristic
+        self.searched = False
+        self.in_path = False
 
     def calculate_heuristic(self, goal_x, goal_y):  # manhattan method
         self.heuristic = (abs(goal_x - self.x) + abs(goal_y - self.y))
