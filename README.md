@@ -18,11 +18,11 @@ User can click on any combination of SEARCH ALGORITHM (DFS, UCS, A*) and
 MAZE NUMBER (1, 2, 3), then click RUN. 
 
 Once a search algorithm has executed, use the ARROW KEYS to traverse the 
-maze. Straying from the optimal path will cause the search algorithm to 
-rerun and construct a new optimal path.
+maze. Straying from the path that was found will cause the search algorithm to 
+rerun and construct a new path.
 
-Note: Since DFS does not display an optimal path, using the ARROW KEYS
-will always cause the algorithm to rerun
+UCS and A* find and display an optimal path. 
+DFS finds and display the path it found, which is often suboptimal. 
 
 Note: Multiple presses of the ARROW KEYS will queue those transitions,
 causing the search algorithm to run again for each node visited while not 
