@@ -93,4 +93,4 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
     print(f"Nodes Explored: {nodes_explored}")
     print(f"Total Cost: {total_cost}")
     print(f"=====================")
-    return False  # No path found
+    return False, []  # No path found

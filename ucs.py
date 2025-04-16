@@ -78,4 +78,4 @@ def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
     print(f"Total Cost of Explored Nodes: {explored_cost}")
     print(f"=====================")
 
-    return False
+    return False, []
