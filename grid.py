@@ -2,11 +2,9 @@ import pygame
 import config
 from maze import GOAL_X
 from maze import GOAL_Y
-# from maze import START_X
-# from maze import START_Y
 
 
-def draw_grid(screen, maze, start_x, start_y):
+def draw_grid(screen, maze, start_x, start_y, algorithm):
     for y in range(len(maze)):
         for x in range(len(maze[y])):
             node = maze[y][x]  # Point to the current MazeNode object in the loop
@@ -16,10 +14,11 @@ def draw_grid(screen, maze, start_x, start_y):
                 color = config.RED  # Goal node
             elif node.x == start_x and node.y == start_y:
                 color = config.ORANGE   # Start node
-            elif node.cost == config.BEST:  # For UCS and A* only
-                color = config.YELLOW
-            elif node.in_path:  # For DFS only
-                color = config.PINK
+            elif node.in_path:
+                if algorithm in ("A*", "UCS"):
+                    color = config.YELLOW
+                elif algorithm == "DFS":
+                    color = config.MAGENTA
             elif node.searched:
                 color = config.PURPLE
             elif not node.traversable:  # Walls

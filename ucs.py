@@ -7,7 +7,6 @@ from grid import draw_grid
 
 def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
     priority_queue = [(0, start_x, start_y)]
-    visited = set()
     cost_so_far = {(start_x, start_y): 0}
     came_from = {}
 
@@ -17,15 +16,15 @@ def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
     while priority_queue:
         current_cost, x, y = heapq.heappop(priority_queue)
 
-        if (x, y) in visited:
+        if maze[y][x].searched:
             continue
-        visited.add((x, y))
+        maze[y][x].searched = True
 
         explored_count += 1
         explored_cost += maze[y][x].cost
 
         maze[y][x].searched = True
-        draw_grid(screen, maze, start_x, start_y)
+        draw_grid(screen, maze, start_x, start_y, "UCS")
         pygame.display.flip()
         time.sleep(0.03)
 
@@ -47,8 +46,8 @@ def ucs(maze, start_x, start_y, goal_x, goal_y, screen):
 
             # Highlight the optimal path
             for optimal_x, optimal_y in reversed(optimal_path):
-                maze[optimal_y][optimal_x].cost = config.BEST
-                draw_grid(screen, maze, start_x, start_y)
+                maze[optimal_y][optimal_x].in_path = True
+                draw_grid(screen, maze, start_x, start_y, "UCS")
                 pygame.display.flip()
                 time.sleep(0.02)
 

@@ -16,9 +16,9 @@ BLUE = (0, 0, 255)
 BROWN = (139, 69, 19)
 GREEN = (0, 255, 0)
 PURPLE = (128, 0, 128)
-YELLOW = (255, 255, 0)
 ORANGE = (255, 165, 0)
-PINK = (255, 192, 203)
+YELLOW = (255, 255, 0)
+MAGENTA = (255, 0, 255)
 
 # Terrain Types With Costs
 WALL = 0
@@ -26,9 +26,6 @@ PATH = 1
 BRIDGE = 2
 GRASS = 20
 WATER = 100
-
-# Used to recolor path
-BEST = -2
 
 # Font
 

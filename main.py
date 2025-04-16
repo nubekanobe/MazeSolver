@@ -145,7 +145,7 @@ def main():
                             run_selected_algorithm()
 
         screen.fill(config.WHITE)
-        draw_grid(screen, maze_copy, start_x, start_y)
+        draw_grid(screen, maze_copy, start_x, start_y, selected_algorithm)
         draw_buttons(screen, selected_algorithm, selected_maze, output_message, log_output)
         pygame.display.flip()
 

@@ -27,7 +27,7 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
         nodes_explored += 1
         maze[curr_y][curr_x].searched = True  # Change status to show the AI path
 
-        draw_grid(screen, maze, start_x, start_y)  # Redraw the grid with updated colors
+        draw_grid(screen, maze, start_x, start_y, "DFS")  # Redraw the grid with updated colors
         pygame.display.flip()  # Update the screen
         time.sleep(0.03)
 
@@ -49,7 +49,7 @@ def dfs(maze, start_x, start_y, goal_x, goal_y, screen):
 
             for x, y in reversed(found_path):
                 maze[y][x].in_path = True
-                draw_grid(screen, maze, start_x, start_y)
+                draw_grid(screen, maze, start_x, start_y, "DFS")
                 pygame.display.flip()
                 time.sleep(0.02)
 
