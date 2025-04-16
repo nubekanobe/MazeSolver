@@ -1,6 +1,5 @@
 import time
 import pygame
-import config
 from grid import draw_grid
 
 

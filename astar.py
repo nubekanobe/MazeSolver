@@ -1,6 +1,5 @@
 import time
 import pygame
-import config
 import heapq
 from grid import draw_grid
 

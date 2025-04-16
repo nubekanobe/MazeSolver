@@ -1,4 +1,3 @@
-# maze.py
 from config import WALL
 from config import PATH
 from config import GRASS

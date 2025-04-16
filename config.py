@@ -1,4 +1,3 @@
-# config.py
 import pygame
 
 # Defining the window dimensions

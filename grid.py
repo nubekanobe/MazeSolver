@@ -9,6 +9,8 @@ def draw_grid(screen, maze, start_x, start_y, algorithm):
         for x in range(len(maze[y])):
             node = maze[y][x]  # Point to the current MazeNode object in the loop
 
+            color = config.GRAY
+
             # Determine the nodes color based on its properties
             if node.x == GOAL_X and node.y == GOAL_Y:
                 color = config.RED  # Goal node
